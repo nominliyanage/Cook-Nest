@@ -70,6 +70,7 @@
     "babel-plugin-module-resolver": "^5.0.2",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
+    "expo-linear-gradient": "^15.0.7",
     "metro": "^0.80.5",
     "metro-resolver": "^0.80.5",
     "prettier": "3.6.2",

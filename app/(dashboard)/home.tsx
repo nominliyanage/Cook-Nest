@@ -6,8 +6,10 @@ import {
     TouchableOpacity,
     Alert,
     RefreshControl,
+    Dimensions,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useTheme } from "../../context/ThemeContext";
 import { useAuth } from "../../context/AuthContext";
 import { useRouter } from "expo-router";
@@ -22,6 +24,8 @@ import {
 } from "../../services/mealService";
 import { getUserProfile } from "../../services/userService";
 import { Meal } from "../../types/meal";
+
+const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
     const { colors } = useTheme();
@@ -98,6 +102,14 @@ export default function HomeScreen() {
         }
     };
 
+    const handleImageCaptured = (imageUri: string) => {
+        // Navigate to meal creation screen with the captured image
+        router.push({
+            pathname: "/(dashboard)/meals/new",
+            params: { imageUri },
+        });
+    };
+
     const onRefresh = () => {
         setRefreshing(true);
         loadData();
@@ -115,138 +127,66 @@ export default function HomeScreen() {
     };
 
     const QuickActionCard = ({
-                                 icon,
                                  title,
                                  subtitle,
+                                 icon,
                                  onPress,
-                                 color = colors.primary,
-                             }: any) => (
-        <TouchableOpacity
-            onPress={onPress}
-            style={{
-                backgroundColor: colors.card,
-                borderRadius: 16,
-                padding: 16,
-                marginRight: 12,
-                minWidth: 140,
-                shadowColor: colors.text,
-                shadowOpacity: 0.1,
-                shadowOffset: { width: 0, height: 2 },
-                shadowRadius: 4,
-                elevation: 3,
-            }}
-        >
-            <View
-                style={{
-                    backgroundColor: color,
-                    width: 48,
-                    height: 48,
-                    borderRadius: 24,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginBottom: 12,
-                }}
-            >
-                <MaterialIcons name={icon} size={24} color="white" />
-            </View>
-            <Text
-                style={{
-                    fontSize: 16,
-                    fontWeight: "600",
-                    color: colors.text,
-                    marginBottom: 4,
-                }}
-            >
-                {title}
-            </Text>
-            <Text
-                style={{
-                    fontSize: 12,
-                    color: colors.textSecondary,
-                }}
-            >
-                {subtitle}
-            </Text>
-        </TouchableOpacity>
-    );
-
-    const StatCard = ({ icon, value, label, color = colors.primary }: any) => (
-        <View
-            style={{
-                backgroundColor: colors.card,
-                borderRadius: 12,
-                padding: 16,
-                flex: 1,
-                marginHorizontal: 4,
-                alignItems: "center",
-                shadowColor: colors.text,
-                shadowOpacity: 0.1,
-                shadowOffset: { width: 0, height: 2 },
-                shadowRadius: 4,
-                elevation: 3,
-            }}
-        >
-            <MaterialIcons name={icon} size={24} color={color} />
-            <Text
-                style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    color: colors.text,
-                    marginVertical: 4,
-                }}
-            >
-                {value}
-            </Text>
-            <Text
-                style={{
-                    fontSize: 12,
-                    color: colors.textSecondary,
-                    textAlign: "center",
-                }}
-            >
-                {label}
-            </Text>
-        </View>
-    );
-
-    const SectionHeader = ({
-                               title,
-                               onViewAll,
-                           }: {
+                                 gradient,
+                             }: {
         title: string;
-        onViewAll?: () => void;
+        subtitle: string;
+        icon: string;
+        onPress: () => void;
+        gradient: string[];
     }) => (
-        <View
+        <TouchableOpacity
             style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: 12,
-                paddingHorizontal: 16,
+                flex: 1,
+                marginHorizontal: 6,
+                borderRadius: 20,
+                overflow: "hidden",
+                elevation: 4,
+                shadowColor: colors.shadow,
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.15,
+                shadowRadius: 8,
             }}
+            onPress={onPress}
         >
-            <Text
+            <LinearGradient
+                colors={gradient}
                 style={{
-                    fontSize: 20,
-                    fontWeight: "bold",
-                    color: colors.text,
+                    padding: 20,
+                    minHeight: 120,
+                    justifyContent: "space-between",
                 }}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
             >
-                {title}
-            </Text>
-            {onViewAll && (
-                <TouchableOpacity onPress={onViewAll}>
+                <MaterialIcons name={icon as any} size={32} color={colors.surface} />
+                <View>
                     <Text
                         style={{
-                            color: colors.primary,
-                            fontWeight: "600",
+                            color: colors.surface,
+                            fontSize: 16,
+                            fontWeight: "bold",
+                            marginBottom: 4,
                         }}
                     >
-                        View All
+                        {title}
                     </Text>
-                </TouchableOpacity>
-            )}
-        </View>
+                    <Text
+                        style={{
+                            color: colors.surface,
+                            fontSize: 13,
+                            opacity: 0.9,
+                        }}
+                    >
+                        {subtitle}
+                    </Text>
+                </View>
+            </LinearGradient>
+        </TouchableOpacity>
     );
 
     if (loading) {
@@ -254,18 +194,21 @@ export default function HomeScreen() {
             <View
                 style={{
                     flex: 1,
-                    backgroundColor: colors.background,
                     justifyContent: "center",
                     alignItems: "center",
+                    backgroundColor: colors.background,
                 }}
             >
-                <MaterialIcons
-                    name="restaurant-menu"
-                    size={48}
-                    color={colors.primary}
-                />
-                <Text style={{ color: colors.text, marginTop: 16 }}>
-                    Loading your meals...
+                <MaterialIcons name="restaurant" size={48} color={colors.primary} />
+                <Text
+                    style={{
+                        color: colors.text,
+                        fontSize: 18,
+                        fontWeight: "600",
+                        marginTop: 16,
+                    }}
+                >
+                    Loading your fresh recipes...
                 </Text>
             </View>
         );
@@ -278,248 +221,384 @@ export default function HomeScreen() {
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
         >
-            {/* Header */}
-            <View style={{ padding: 16, paddingTop: 24 }}>
-                <Text
-                    style={{
-                        fontSize: 28,
-                        fontWeight: "bold",
-                        color: colors.text,
-                        marginBottom: 4,
-                    }}
-                >
-                    {getGreeting()}!
-                </Text>
-                <Text
-                    style={{
-                        fontSize: 16,
-                        color: colors.textSecondary,
-                    }}
-                >
-                    {userProfile?.firstName ? `${userProfile.firstName}` : "Welcome back"}
-                </Text>
-            </View>
-
-            {/* Stats Row */}
-            <View
+            {/* Stunning Header with Fresh Green Gradient */}
+            <LinearGradient
+                colors={colors.gradient.primary}
                 style={{
-                    flexDirection: "row",
-                    paddingHorizontal: 12,
-                    marginBottom: 24,
+                    paddingHorizontal: 20,
+                    paddingTop: 60,
+                    paddingBottom: 30,
+                    borderBottomLeftRadius: 32,
+                    borderBottomRightRadius: 32,
                 }}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
             >
-                <StatCard
-                    icon="restaurant"
-                    value={recentMeals.length}
-                    label="Total Meals"
-                    color={colors.primary}
-                />
-                <StatCard
-                    icon="today"
-                    value={todaysMeals.length}
-                    label="Today's Plan"
-                    color="#FF6B6B"
-                />
-                <StatCard
-                    icon="favorite"
-                    value={favoriteMeals.length}
-                    label="Favorites"
-                    color="#FFB347"
-                />
-            </View>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: 20,
+                    }}
+                >
+                    <View style={{ flex: 1 }}>
+                        <Text
+                            style={{
+                                color: colors.surface,
+                                fontSize: 28,
+                                fontWeight: "bold",
+                            }}
+                        >
+                            {getGreeting()}
+                        </Text>
+                        <Text
+                            style={{
+                                color: colors.surface,
+                                fontSize: 16,
+                                opacity: 0.9,
+                                marginTop: 4,
+                            }}
+                        >
+                            {userProfile?.displayName || "Food Creator"} 👤
+                        </Text>
+                    </View>
+                    <TouchableOpacity
+                        style={{
+                            width: 48,
+                            height: 48,
+                            borderRadius: 24,
+                            backgroundColor: "rgba(255,255,255,0.2)",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                        onPress={() => router.push("/(dashboard)/notification")}
+                    >
+                        <MaterialIcons name="notifications" size={24} color={colors.surface} />
+                    </TouchableOpacity>
+                </View>
 
-            {/* Quick Actions */}
-            <View style={{ marginBottom: 24 }}>
+                {/* Enhanced Stats Cards */}
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <View
+                        style={{
+                            backgroundColor: "rgba(255,255,255,0.15)",
+                            padding: 16,
+                            borderRadius: 16,
+                            flex: 1,
+                            marginRight: 8,
+                            alignItems: "center",
+                        }}
+                    >
+                        <MaterialIcons name="restaurant-menu" size={24} color={colors.surface} />
+                        <Text
+                            style={{
+                                color: colors.surface,
+                                fontSize: 20,
+                                fontWeight: "bold",
+                                marginTop: 8,
+                            }}
+                        >
+                            {recentMeals.length}
+                        </Text>
+                        <Text
+                            style={{
+                                color: colors.surface,
+                                fontSize: 12,
+                                opacity: 0.8,
+                            }}
+                        >
+                            Fresh Recipes
+                        </Text>
+                    </View>
+                    <View
+                        style={{
+                            backgroundColor: "rgba(255,255,255,0.15)",
+                            padding: 16,
+                            borderRadius: 16,
+                            flex: 1,
+                            marginLeft: 8,
+                            alignItems: "center",
+                        }}
+                    >
+                        <MaterialIcons name="favorite" size={24} color={colors.surface} />
+                        <Text
+                            style={{
+                                color: colors.surface,
+                                fontSize: 20,
+                                fontWeight: "bold",
+                                marginTop: 8,
+                            }}
+                        >
+                            {favoriteMeals.length}
+                        </Text>
+                        <Text
+                            style={{
+                                color: colors.surface,
+                                fontSize: 12,
+                                opacity: 0.8,
+                            }}
+                        >
+                            Loved Dishes
+                        </Text>
+                    </View>
+                </View>
+            </LinearGradient>
+
+            {/* Enhanced Quick Actions */}
+            <View style={{ paddingHorizontal: 20, paddingTop: 24 }}>
                 <Text
                     style={{
+                        color: colors.text,
                         fontSize: 20,
                         fontWeight: "bold",
-                        color: colors.text,
-                        paddingHorizontal: 16,
                         marginBottom: 16,
                     }}
                 >
                     Quick Actions
                 </Text>
-                <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{ paddingLeft: 16 }}
-                >
+                <View style={{ flexDirection: "row" }}>
                     <QuickActionCard
-                        icon="add"
-                        title="Add Meal"
-                        subtitle="Create new recipe"
-                        onPress={() => router.push("/meals")}
-                        color={colors.primary}
+                        title="Create Recipe"
+                        subtitle="Add your fresh new creation"
+                        icon="add-circle"
+                        gradient={colors.gradient.secondary}
+                        onPress={() => router.push("/(dashboard)/meals/new")}
                     />
                     <QuickActionCard
-                        icon="calendar-today"
-                        title="Plan Meals"
-                        subtitle="Schedule your week"
-                        onPress={() => router.push("/plan")}
-                        color="#FF6B6B"
+                        title="Meal Planning"
+                        subtitle="Plan your weekly fresh meals"
+                        icon="event-note"
+                        gradient={colors.gradient.accent}
+                        onPress={() => router.push("/(dashboard)/plan")}
                     />
-                    <QuickActionCard
-                        icon="favorite"
-                        title="Favorites"
-                        subtitle="View saved meals"
-                        onPress={() => router.push("/favourites")}
-                        color="#FFB347"
-                    />
-                    <View style={{ marginRight: 16 }}>
-                        <QuickCameraAction />
-                    </View>
-                    <QuickActionCard
-                        icon="person"
-                        title="Profile"
-                        subtitle="Edit your info"
-                        onPress={() => router.push("/profile")}
-                        color="#4ECDC4"
-                    />
-                </ScrollView>
+                </View>
             </View>
 
-            {/* Today's Meals */}
-            {todaysMeals.length > 0 && (
-                <View style={{ marginBottom: 24 }}>
-                    <SectionHeader
-                        title="Today's Meals"
-                        onViewAll={() => router.push("/plan")}
-                    />
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={{ paddingLeft: 8 }}
-                    >
-                        {todaysMeals.map((meal) => (
-                            <View key={meal.id} style={{ width: 280 }}>
-                                <MealCard
-                                    meal={meal}
-                                    onFavorite={() => handleFavoriteToggle(meal)}
-                                    onDelete={() => handleDeleteMeal(meal.id!)}
-                                    showActions={false}
-                                />
-                            </View>
-                        ))}
-                    </ScrollView>
-                </View>
-            )}
+            {/* Enhanced Camera Action */}
+            <View style={{ paddingHorizontal: 20, paddingTop: 16 }}>
+                <QuickCameraAction onImageCaptured={handleImageCaptured} />
+            </View>
 
-            {/* Favorite Meals */}
-            {favoriteMeals.length > 0 && (
-                <View style={{ marginBottom: 24 }}>
-                    <SectionHeader
-                        title="Your Favorites"
-                        onViewAll={() => router.push("/favourites")}
-                    />
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={{ paddingLeft: 8 }}
-                    >
-                        {favoriteMeals.map((meal) => (
-                            <View key={meal.id} style={{ width: 280 }}>
-                                <MealCard
-                                    meal={meal}
-                                    onFavorite={() => handleFavoriteToggle(meal)}
-                                    onDelete={() => handleDeleteMeal(meal.id!)}
-                                    showActions={false}
-                                />
-                            </View>
-                        ))}
-                    </ScrollView>
-                </View>
-            )}
-
-            {/* Recent Meals */}
-            {recentMeals.length > 0 && (
-                <View style={{ marginBottom: 24 }}>
-                    <SectionHeader
-                        title="Recent Meals"
-                        onViewAll={() => router.push("/meals")}
-                    />
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={{ paddingLeft: 8 }}
-                    >
-                        {recentMeals.map((meal) => (
-                            <View key={meal.id} style={{ width: 280 }}>
-                                <MealCard
-                                    meal={meal}
-                                    onFavorite={() => handleFavoriteToggle(meal)}
-                                    onDelete={() => handleDeleteMeal(meal.id!)}
-                                    showActions={false}
-                                />
-                            </View>
-                        ))}
-                    </ScrollView>
-                </View>
-            )}
-
-            {/* Empty State */}
-            {recentMeals.length === 0 && (
-                <View
-                    style={{
-                        padding: 32,
-                        alignItems: "center",
-                        marginTop: 32,
-                    }}
-                >
-                    <MaterialIcons
-                        name="restaurant-menu"
-                        size={64}
-                        color={colors.textSecondary}
-                    />
-                    <Text
-                        style={{
-                            fontSize: 18,
-                            fontWeight: "600",
-                            color: colors.text,
-                            marginTop: 16,
-                            marginBottom: 8,
-                        }}
-                    >
-                        No Meals Yet
-                    </Text>
-                    <Text
-                        style={{
-                            color: colors.textSecondary,
-                            textAlign: "center",
-                            marginBottom: 24,
-                        }}
-                    >
-                        Start by adding your first meal recipe to begin your culinary
-                        journey!
-                    </Text>
-                    <TouchableOpacity
-                        onPress={() => router.push("/meals")}
-                        style={{
-                            backgroundColor: colors.primary,
-                            paddingHorizontal: 24,
-                            paddingVertical: 12,
-                            borderRadius: 24,
-                            flexDirection: "row",
-                            alignItems: "center",
-                        }}
-                    >
-                        <MaterialIcons name="add" size={20} color="white" />
-                        <Text
+            {/* Beautiful Sections */}
+            <View style={{ paddingHorizontal: 20, paddingTop: 24 }}>
+                {/* Today's Meals */}
+                {todaysMeals.length > 0 && (
+                    <View style={{ marginBottom: 32 }}>
+                        <View
                             style={{
-                                color: "white",
-                                fontWeight: "600",
-                                marginLeft: 8,
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                marginBottom: 16,
                             }}
                         >
-                            Add Your First Meal
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            )}
+                            <Text
+                                style={{
+                                    color: colors.text,
+                                    fontSize: 20,
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                Today's Fresh Menu 🌿
+                            </Text>
+                            <TouchableOpacity
+                                onPress={() => router.push("/(dashboard)/plan")}
+                            >
+                                <Text
+                                    style={{
+                                        color: colors.primary,
+                                        fontSize: 14,
+                                        fontWeight: "600",
+                                    }}
+                                >
+                                    View All
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                            {todaysMeals.map((meal, index) => (
+                                <View
+                                    key={meal.id}
+                                    style={{
+                                        marginRight: 16,
+                                        width: width * 0.75,
+                                    }}
+                                >
+                                    <MealCard
+                                        meal={meal}
+                                        onToggleFavorite={() => handleFavoriteToggle(meal)}
+                                        onDelete={() => handleDeleteMeal(meal.id!)}
+                                    />
+                                </View>
+                            ))}
+                        </ScrollView>
+                    </View>
+                )}
 
-            {/* Bottom padding */}
-            <View style={{ height: 24 }} />
+                {/* Recent Meals */}
+                {recentMeals.length > 0 && (
+                    <View style={{ marginBottom: 32 }}>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                marginBottom: 16,
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    color: colors.text,
+                                    fontSize: 20,
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                Recent Creations ✨
+                            </Text>
+                            <TouchableOpacity
+                                onPress={() => router.push("/(dashboard)/meals")}
+                            >
+                                <Text
+                                    style={{
+                                        color: colors.primary,
+                                        fontSize: 14,
+                                        fontWeight: "600",
+                                    }}
+                                >
+                                    View All
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        {recentMeals.slice(0, 3).map((meal, index) => (
+                            <View key={meal.id} style={{ marginBottom: 12 }}>
+                                <MealCard
+                                    meal={meal}
+                                    onToggleFavorite={() => handleFavoriteToggle(meal)}
+                                    onDelete={() => handleDeleteMeal(meal.id!)}
+                                />
+                            </View>
+                        ))}
+                    </View>
+                )}
+
+                {/* Favorite Meals */}
+                {favoriteMeals.length > 0 && (
+                    <View style={{ marginBottom: 100 }}>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                alignItems: "center",
+                                marginBottom: 16,
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    color: colors.text,
+                                    fontSize: 20,
+                                    fontWeight: "bold",
+                                }}
+                            >
+                                Your Favorites 💚
+                            </Text>
+                            <TouchableOpacity
+                                onPress={() => router.push("/(dashboard)/favourites")}
+                            >
+                                <Text
+                                    style={{
+                                        color: colors.primary,
+                                        fontSize: 14,
+                                        fontWeight: "600",
+                                    }}
+                                >
+                                    View All
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                            {favoriteMeals.map((meal, index) => (
+                                <View
+                                    key={meal.id}
+                                    style={{
+                                        marginRight: 16,
+                                        width: width * 0.75,
+                                    }}
+                                >
+                                    <MealCard
+                                        meal={meal}
+                                        onToggleFavorite={() => handleFavoriteToggle(meal)}
+                                        onDelete={() => handleDeleteMeal(meal.id!)}
+                                    />
+                                </View>
+                            ))}
+                        </ScrollView>
+                    </View>
+                )}
+
+                {/* Empty State */}
+                {recentMeals.length === 0 && (
+                    <View
+                        style={{
+                            alignItems: "center",
+                            paddingVertical: 60,
+                        }}
+                    >
+                        <MaterialIcons name="eco" size={64} color={colors.textMuted} />
+                        <Text
+                            style={{
+                                color: colors.text,
+                                fontSize: 20,
+                                fontWeight: "600",
+                                marginTop: 16,
+                                marginBottom: 8,
+                            }}
+                        >
+                            Start Your Fresh Journey! 🌱
+                        </Text>
+                        <Text
+                            style={{
+                                color: colors.textMuted,
+                                fontSize: 16,
+                                textAlign: "center",
+                                marginBottom: 24,
+                                lineHeight: 24,
+                            }}
+                        >
+                            Create your first recipe and begin your fresh food adventure
+                        </Text>
+                        <TouchableOpacity
+                            style={{
+                                backgroundColor: colors.primary,
+                                paddingHorizontal: 24,
+                                paddingVertical: 12,
+                                borderRadius: 16,
+                                elevation: 2,
+                                shadowColor: colors.primary,
+                                shadowOffset: { width: 0, height: 4 },
+                                shadowOpacity: 0.3,
+                                shadowRadius: 8,
+                            }}
+                            onPress={() => router.push("/(dashboard)/meals/new")}
+                        >
+                            <Text
+                                style={{
+                                    color: colors.surface,
+                                    fontSize: 16,
+                                    fontWeight: "600",
+                                }}
+                            >
+                                Create First Recipe
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+            </View>
         </ScrollView>
     );
 }

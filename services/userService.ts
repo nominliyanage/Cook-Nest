@@ -34,7 +34,7 @@ export const uploadImageToCloudinary = async (imageUri: string) => {
     data.append("upload_preset", "my_preset"); // Replace with your preset
 
     const res = await fetch(
-        "https://api.cloudinary.com/v1_1/dfwzzxgja/image/upload",
+        "https://api.cloudinary.com/v1_1/dln8mdday/image/upload",
         {
             method: "POST",
             body: data,

@@ -83,7 +83,7 @@ export const uploadImageToCloudinary = async (imageUri: string) => {
     try {
       // Attempt the upload
       const res = await fetch(
-          "https://api.cloudinary.com/v1_1/dfwzzxgja/image/upload",
+          "https://api.cloudinary.com/v1_1/dln8mdday/image/upload",
           {
             method: "POST",
             body: data,

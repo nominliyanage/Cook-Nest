@@ -7,6 +7,7 @@ import { useTheme } from "@/context/ThemeContext";
 import NotificationService from "@/services/notificationService";
 import { scheduleNotificationsForPlannedMeals } from "@/services/mealService";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import FooterNav from "@/components/FooterNav";
 
 const DashboardLayout = () => {
     const { user, loading } = useAuth();
@@ -77,109 +78,30 @@ const DashboardLayout = () => {
             <Tabs
                 screenOptions={{
                     headerShown: false,
-                    tabBarActiveTintColor: colors.primary,
-                    tabBarInactiveTintColor: colors.textSecondary,
-                    tabBarStyle: {
-                        backgroundColor: colors.card,
-                        borderTopColor: colors.border,
-                        borderTopWidth: 1,
-                        paddingTop: 8,
-                        paddingBottom: 8,
-                        height: 70,
-                    },
-                    tabBarLabelStyle: {
-                        fontSize: 12,
-                        fontWeight: "600",
-                        marginTop: 4,
-                    },
+                    tabBarStyle: { display: "none" }, // Hide the default tab bar
                 }}
             >
+                <Tabs.Screen name="home" options={{ href: "/(dashboard)/home" }} />
+                <Tabs.Screen name="meals" options={{ href: "/(dashboard)/meals" }} />
                 <Tabs.Screen
-                    name="home"
-                    options={{
-                        title: "Home",
-                        tabBarIcon: ({ focused, size, color }) => (
-                            <MaterialIcons
-                                name={focused ? "home" : "home"}
-                                size={size}
-                                color={color}
-                            />
-                        ),
-                    }}
-                />
-                <Tabs.Screen
-                    name="meals"
-                    options={{
-                        title: "Meals",
-                        tabBarIcon: ({ focused, size, color }) => (
-                            <MaterialIcons
-                                name={focused ? "restaurant-menu" : "restaurant-menu"}
-                                size={size}
-                                color={color}
-                            />
-                        ),
-                    }}
+                    name="fresh-discovery"
+                    options={{ href: "/(dashboard)/fresh-discovery" }}
                 />
                 <Tabs.Screen
                     name="favourites"
-                    options={{
-                        title: "Favorites",
-                        tabBarIcon: ({ focused, size, color }) => (
-                            <MaterialIcons
-                                name={focused ? "favorite" : "favorite-border"}
-                                size={size}
-                                color={color}
-                            />
-                        ),
-                    }}
+                    options={{ href: "/(dashboard)/favourites" }}
                 />
-                <Tabs.Screen
-                    name="plan"
-                    options={{
-                        title: "Planner",
-                        tabBarIcon: ({ focused, size, color }) => (
-                            <MaterialIcons
-                                name={focused ? "calendar-today" : "calendar-today"}
-                                size={size}
-                                color={color}
-                            />
-                        ),
-                    }}
-                />
+                <Tabs.Screen name="profile" options={{ href: "/(dashboard)/profile" }} />
 
-                <Tabs.Screen
-                    name="profile"
-                    options={{
-                        title: "Profile",
-                        tabBarIcon: ({ focused, size, color }) => (
-                            <MaterialIcons
-                                name={focused ? "person" : "person-outline"}
-                                size={size}
-                                color={color}
-                            />
-                        ),
-                    }}
-                />
-                <Tabs.Screen
-                    name="settings"
-                    options={{
-                        title: "Settings",
-                        tabBarIcon: ({ focused, size, color }) => (
-                            <MaterialIcons
-                                name={focused ? "settings" : "settings"}
-                                size={size}
-                                color={color}
-                            />
-                        ),
-                    }}
-                />
-                <Tabs.Screen
-                    name="notifications"
-                    options={{
-                        href: null, // Hide from tab bar, accessible via navigation
-                    }}
-                />
+                {/* Hide these extra screens from navigation */}
+                <Tabs.Screen name="settings" options={{ href: null }} />
+                <Tabs.Screen name="notifications" options={{ href: null }} />
+                <Tabs.Screen name="plan" options={{ href: null }} />
+                <Tabs.Screen name="qr-generator" options={{ href: null }} />
             </Tabs>
+
+            {/* Use our custom FooterNav instead */}
+            <FooterNav />
         </SafeAreaView>
     );
 };
