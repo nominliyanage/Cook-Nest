@@ -267,7 +267,7 @@ const Login = () => {
                                 fontSize: 14,
                             }}
                         >
-                            New to MealMate?
+                            New to CookNest?
                         </Text>
                         <View
                             style={{
