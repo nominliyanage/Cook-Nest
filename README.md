@@ -1,50 +1,49 @@
-# Welcome to your Expo app 👋
+📱 Overview
+Cook Nest is a comprehensive React Native mobile application built with Expo that helps users plan, manage, and organize their meals efficiently.
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Meal Type Controls: Individual notification toggles for each meal type
+Custom Reminder Times: Personalized notification scheduling for breakfast, lunch, dinner, and snacks
+Meal Planning Reminders: Option to enable daily reminders to plan meals in advance
+Test Notifications: Built-in test functionality to verify notification delivery
+Permission Management: Automatic handling of notification permissions
+Real-time Updates: Instant settings synchronization across the app
+Persistent Storage: Settings automatically saved and restore, favorites management, and advanced camera functionality with QR code scanning capabilities.
 
-## Get started
+🚀 Key Features
+🔐 Authentication System
+User Registration: Create account with email and password
+Secure Login: Firebase Authentication integration
+Profile Management: Complete user profile with photo upload
+Session Persistence: Automatic login state management
+Logout Functionality: Secure session termination
 
-1. Install dependencies
+🍽️ Meal Management
+Create Meals: Add detailed meal information with rich metadata
+Edit Meals: Update existing meal details and images
+Delete Meals: Remove meals with confirmation dialogs
+View Meals: Browse all created meals in organized layout
+Real-time Sync: Live updates across all devices
 
-   ```bash
-   npm install
-   ```
+📊 Meal Details
+Basic Information: Title, name, description
+Nutritional Data: Calories, servings, cooking time
+Ingredients: Comma-separated ingredient lists
+Categories: Breakfast, lunch, dinner, snack classification
+Images: High-quality meal photography with cloud storage
+Metadata: Creation dates, user association, favorites status
 
-2. Start the app
+📅 Meal Planning System
+Weekly Calendar: Interactive 7-day meal planning interface
+Date Selection: Plan meals for any future date
+Meal Type Organization: Separate breakfast, lunch, dinner, snack sections
+Drag & Drop Planning: Select from existing meals to plan
+Confirmation Dialogs: Verify meal planning actions
+Visual Indicators: Show planned vs. empty meal slots
 
-   ```bash
-   npx expo start
-   ```
+❤️ Favorites Management
+Toggle Favorites: One-tap favorite/unfavorite meals
+Real-time Updates: Instant favorites synchronization using Firestore listeners
+Dedicated Favorites Screen: Browse all favorite meals
+Visual Indicators: Heart icons showing favorite status
+Persistent Storage: Favorites saved across sessions
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
