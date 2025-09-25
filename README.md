@@ -47,3 +47,16 @@ Dedicated Favorites Screen: Browse all favorite meals
 Visual Indicators: Heart icons showing favorite status
 Persistent Storage: Favorites saved across sessions
 
+👤 User Profile Management
+Profile Creation: Complete user profile setup during registration
+Profile Editing: Update display name, email, profile image
+Image Upload: Profile photo management with Cloudinary
+Account Settings: Comprehensive user account management
+Data Persistence: Profile data stored in Firestore
+
+🏠 Dashboard & Navigation
+Home Screen: Quick overview with recent meals and statistics
+Bottom Tab Navigation: Easy access to all major sections
+Quick Actions: Fast access to common tasks
+Statistics Display: Meal counts, planning overview
+Recent Activity: Latest meals and planning activities
