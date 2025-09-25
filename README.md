@@ -10,6 +10,7 @@ Permission Management: Automatic handling of notification permissions
 Real-time Updates: Instant settings synchronization across the app
 Persistent Storage: Settings automatically saved and restore, favorites management, and advanced camera functionality with QR code scanning capabilities.
 
+
 **🚀 Key Features**
 
 **🔐 Authentication System**
@@ -20,6 +21,7 @@ Profile Management: Complete user profile with photo upload
 Session Persistence: Automatic login state management
 Logout Functionality: Secure session termination
 
+
 **🍽️ Meal Management**
 
 Create Meals: Add detailed meal information with rich metadata
@@ -27,6 +29,7 @@ Edit Meals: Update existing meal details and images
 Delete Meals: Remove meals with confirmation dialogs
 View Meals: Browse all created meals in organized layout
 Real-time Sync: Live updates across all devices
+
 
 **📊 Meal Details**
 
@@ -37,6 +40,7 @@ Categories: Breakfast, lunch, dinner, snack classification
 Images: High-quality meal photography with cloud storage
 Metadata: Creation dates, user association, favorites status
 
+
 **📅 Meal Planning System**
 
 Weekly Calendar: Interactive 7-day meal planning interface
@@ -46,6 +50,7 @@ Drag & Drop Planning: Select from existing meals to plan
 Confirmation Dialogs: Verify meal planning actions
 Visual Indicators: Show planned vs. empty meal slots
 
+
 **❤️ Favorites Management**
 
 Toggle Favorites: One-tap favorite/unfavorite meals
@@ -53,6 +58,7 @@ Real-time Updates: Instant favorites synchronization using Firestore listeners
 Dedicated Favorites Screen: Browse all favorite meals
 Visual Indicators: Heart icons showing favorite status
 Persistent Storage: Favorites saved across sessions
+
 
 **👤 User Profile Management**
 
@@ -62,9 +68,15 @@ Image Upload: Profile photo management with Cloudinary
 Account Settings: Comprehensive user account management
 Data Persistence: Profile data stored in Firestore
 
-🏠 Dashboard & Navigation
+
+**🏠 Dashboard & Navigation**
+
 Home Screen: Quick overview with recent meals and statistics
 Bottom Tab Navigation: Easy access to all major sections
 Quick Actions: Fast access to common tasks
 Statistics Display: Meal counts, planning overview
 Recent Activity: Latest meals and planning activities
+
+**Youtube Demo Link:**
+
+https://youtube.com/shorts/BKERLDohECU?si=FXZ33ZhlDXopbLUy
